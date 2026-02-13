@@ -4,7 +4,25 @@
   <meta charset="UTF-8">
   <title>Linux para Principiantes</title>
 
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DistroPicker | Empieza en Linux</title>
   <style>
+    :root {
+      --bg: #0b1220;
+      --card: rgba(15, 23, 42, 0.72);
+      --glass: rgba(255, 255, 255, 0.08);
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-2: #a78bfa;
+      --easy: #34d399;
+      --mid: #fbbf24;
+      --pro: #fb7185;
+    }
+
+    * { box-sizing: border-box; }
+
     body {
       font-family: system-ui, Arial, sans-serif;
       background: linear-gradient(180deg, #f4f6f8, #e9ecf1);
@@ -12,18 +30,44 @@
       max-width: 1100px;
       margin: auto;
       padding: 20px;
+      margin: 0;
+      font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 20%, #1d4ed8 0%, transparent 40%),
+        radial-gradient(circle at 90% 10%, #7c3aed 0%, transparent 40%),
+        radial-gradient(circle at 45% 90%, #0ea5e9 0%, transparent 30%),
+        var(--bg);
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
     h1 {
       text-align: center;
       font-size: 2.4em;
       margin-bottom: 10px;
+    .bg-orb {
+      position: fixed;
+      z-index: -1;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      filter: blur(18px);
+      opacity: 0.35;
+      animation: float 10s ease-in-out infinite;
     }
 
     .subtitle {
       text-align: center;
       color: #555;
       margin-bottom: 30px;
+    .orb-1 { background: #38bdf8; top: 8%; left: -70px; }
+    .orb-2 { background: #a78bfa; top: 52%; right: -90px; animation-delay: -3s; }
+    .orb-3 { background: #22d3ee; bottom: -70px; left: 38%; animation-delay: -6s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) translateX(0px); }
+      50% { transform: translateY(-18px) translateX(8px); }
     }
 
     .intro {
@@ -32,34 +76,91 @@
       border-radius: 12px;
       margin-bottom: 30px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px) scale(0.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .grid {
+    .container {
+      width: min(1200px, 92%);
+      margin: 0 auto;
+      padding: 2rem 0 3rem;
+    }
+
+    .hero {
+      background: var(--glass);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 24px;
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 60px rgba(2, 6, 23, 0.55);
+      margin-bottom: 1.8rem;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(2rem, 3.8vw, 3rem);
+      line-height: 1.1;
+    }
+
+    .hero p { color: var(--muted); max-width: 80ch; }
+
+    .tip-box {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.75rem;
+      margin-top: 1rem;
     }
 
     .distro {
       background: white;
       padding: 18px;
+    .tip {
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 14px;
       box-shadow: 0 6px 18px rgba(0,0,0,0.1);
       transition: transform 0.2s;
+      padding: 0.85rem 1rem;
+      color: #dbeafe;
+      font-size: 0.95rem;
     }
 
     .distro:hover {
       transform: translateY(-4px);
+    h2.section-title {
+      margin: 1.75rem 0 0.95rem;
+      font-size: 1.35rem;
+      color: #bfdbfe;
+      letter-spacing: 0.2px;
     }
 
     .distro h2 {
       margin-top: 0;
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0.95rem;
     }
 
     .level {
       font-size: 0.9em;
       color: #666;
       margin-bottom: 10px;
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 18px;
+      padding: 1rem;
+      box-shadow: 0 10px 28px rgba(2, 6, 23, 0.45);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      animation: fadeUp 0.7s ease both;
+      position: relative;
+      overflow: hidden;
     }
 
     a {
@@ -68,6 +169,15 @@
       color: #2563eb;
       text-decoration: none;
       font-weight: 500;
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -120% 40% auto -40%;
+      height: 220%;
+      background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transform: rotate(18deg);
+      transition: transform 0.7s ease;
+      pointer-events: none;
     }
 
     button {
@@ -78,10 +188,16 @@
       background: #111827;
       color: white;
       cursor: pointer;
+    .card:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 18px 36px rgba(2, 6, 23, 0.6);
+      border-color: rgba(125, 211, 252, 0.45);
     }
 
     button:hover {
       background: #1f2937;
+    .card:hover::before {
+      transform: translateX(170%) rotate(18deg);
     }
 
     .pasos {
@@ -91,6 +207,15 @@
       padding: 12px;
       border-radius: 8px;
       font-size: 0.95em;
+    .tag {
+      display: inline-block;
+      border-radius: 999px;
+      font-size: 0.77rem;
+      font-weight: 700;
+      padding: 0.28rem 0.68rem;
+      margin-bottom: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.35px;
     }
 
     footer {
@@ -98,11 +223,24 @@
       margin-top: 40px;
       color: #666;
       font-size: 0.9em;
+    .easy { background: color-mix(in srgb, var(--easy) 28%, transparent); color: var(--easy); }
+    .medium { background: color-mix(in srgb, var(--mid) 22%, transparent); color: var(--mid); }
+    .advanced { background: color-mix(in srgb, var(--pro) 22%, transparent); color: var(--pro); }
+
+    .card h3 {
+      margin: 0.12rem 0 0.45rem;
+      font-size: 1.15rem;
     }
   </style>
 </head>
 
 <body>
+    .card p {
+      margin: 0;
+      color: #cbd5e1;
+      min-height: 3rem;
+      font-size: 0.95rem;
+    }
 
   <h1>🐧 Linux para Principiantes</h1>
   <p class="subtitle">Elige una distro, sigue los pasos y no rompas nada</p>
@@ -215,20 +353,121 @@
         </ol>
       </div>
     </div>
+    .links {
+      margin-top: 0.85rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
 
   </div>
+    .links a {
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.86rem;
+      color: #0f172a;
+      padding: 0.47rem 0.68rem;
+      border-radius: 9px;
+      background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    }
 
   <footer>
     Hecho para principiantes. Linux no muerde 🐧
   </footer>
+    .tutoriales {
+      margin-top: 1.9rem;
+      padding: 1.2rem;
+      border-radius: 20px;
+      background: var(--glass);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      animation: fadeUp 1s ease both;
+    }
 
   <script>
     function toggle(id) {
       const el = document.getElementById(id);
       el.style.display = el.style.display === "block" ? "none" : "block";
+    .tutoriales ul {
+      margin: 0.5rem 0 0;
+      padding-left: 1rem;
+      color: #dbeafe;
     }
   </script>
 
+    .tutoriales li { margin-bottom: 0.45rem; }
+    .tutoriales a { color: #7dd3fc; text-decoration: none; }
+
+    footer {
+      margin-top: 2rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <div class="bg-orb orb-3"></div>
+
+  <main class="container">
+    <section class="hero">
+      <h1>🐧 DistroPicker: tu primera aventura en Linux</h1>
+      <p>
+        Una web para gente que quiere empezar en Linux: compara distribuciones por dificultad,
+        abre tutoriales oficiales y descarga de forma segura desde cada web.
+      </p>
+      <div class="tip-box">
+        <div class="tip">✅ Prueba el modo Live USB antes de instalar.</div>
+        <div class="tip">💾 Haz copia de seguridad de tus archivos.</div>
+        <div class="tip">🧠 Elige primero una distro de nivel fácil.</div>
+        <div class="tip">🚀 Crea el USB con Rufus o balenaEtcher.</div>
+      </div>
+    </section>
+
+    <h2 class="section-title">Distros recomendadas (21 en total)</h2>
+    <section class="grid">
+      <article class="card"><span class="tag easy">Fácil · ⭐</span><h3>Linux Mint</h3><p>Muy intuitiva y estable para usuarios nuevos.</p><div class="links"><a href="https://linuxmint.com/download.php" target="_blank" rel="noopener noreferrer">Descargar</a><a href="https://linuxmint-installation-guide.readthedocs.io/" target="_blank" rel="noopener noreferrer">Tutorial</a></div></article>
+      <article class="card"><span class="tag easy">Fácil · ⭐</span><h3>Ubuntu</h3><p>La más popular y con mucha comunidad.</p><div class="links"><a href="https://ubuntu.com/download/desktop" target="_blank" rel="noopener noreferrer">Descargar</a><a href="https://ubuntu.com/tutorials/install-ubuntu-desktop" target="_blank" rel="noopener noreferrer">Tutorial</a></div></article>
+      <article class="card"><span class="tag easy">Fácil · ⭐</span><h3>Zorin OS</h3><p>Muy cómoda para quien viene de Windows.</p><div class="links"><a href="https://zorin.com/os/download/" target="_blank" rel="noopener noreferrer">Descargar</a><a href="https://help.zorin.com/docs/getting-started/install-zorin-os/" target="_blank" rel="noopener noreferrer">Tutorial</a></div></article>
+      <article class="card"><span class="tag medium">Intermedio · ⭐⭐</span><h3>Fedora Workstation</h3><p>Moderna, elegante y al día con novedades.</p><div class="links"><a href="https://fedoraproject.org/workstation/download" target="_blank" rel="noopener noreferrer">Descargar</a><a href="https://docs.fedoraproject.org/en-US/fedora/latest/getting-started/" target="_blank" rel="noopener noreferrer">Tutorial</a></div></article>
+      <article class="card"><span class="tag medium">Intermedio · ⭐⭐</span><h3>elementary OS</h3><p>Minimalista y bonita para uso diario.</p><div class="links"><a href="https://elementary.io/" target="_blank" rel="noopener noreferrer">Descargar</a><a href="https://elementary.io/docs/installation" target="_blank" rel="noopener noreferrer">Tutorial</a></div></article>
+      <article class="card"><span class="tag advanced">Avanzado · ⭐⭐⭐</span><h3>Arch Linux</h3><p>Control total para aprender Linux a fondo.</p><div class="links"><a href="https://archlinux.org/download/" target="_blank" rel="noopener noreferrer">Descargar</a><a href="https://wiki.archlinux.org/title/Installation_guide" target="_blank" rel="noopener noreferrer">Tutorial</a></div></article>
+
+      <article class="card"><span class="tag easy">Fácil · ⭐</span><h3>Pop!_OS</h3><p>Perfecta para productividad y gaming.</p><div class="links"><a href="https://pop.system76.com/" target="_blank" rel="noopener noreferrer">Descargar</a><a href="https://support.system76.com/articles/install-pop/" target="_blank" rel="noopener noreferrer">Tutorial</a></div></article>
+      <article class="card"><span class="tag easy">Fácil · ⭐</span><h3>Kubuntu</h3><p>Ubuntu con escritorio KDE, súper configurable.</p><div class="links"><a href="https://kubuntu.org/getkubuntu/" target="_blank" rel="noopener noreferrer">Descargar</a><a href="https://kubuntu.org/getkubuntu/" target="_blank" rel="noopener noreferrer">Tutorial</a></div></article>
+      <article class="card"><span class="tag easy">Fácil · ⭐</span><h3>Xubuntu</h3><p>Ligera y rápida para equipos modestos.</p><div class="links"><a href="https://xubuntu.org/download" target="_blank" rel="noopener noreferrer">Descargar</a><a href="https://xubuntu.org/help/" target="_blank" rel="noopener noreferrer">Tutorial</a></div></article>
+      <article class="card"><span class="tag easy">Fácil · ⭐</span><h3>Lubuntu</h3><p>Muy ligera, ideal para PCs antiguos.</p><div class="links"><a href="https://lubuntu.me/downloads/" target="_blank" rel="noopener noreferrer">Descargar</a><a href="https://manual.lubuntu.me/stable/" target="_blank" rel="noopener noreferrer">Tutorial</a></div></article>
+      <article class="card"><span class="tag easy">Fácil · ⭐</span><h3>MX Linux</h3><p>Estable, rápida y muy bien valorada.</p><div class="links"><a href="https://mxlinux.org/download-links/" target="_blank" rel="noopener noreferrer">Descargar</a><a href="https://mxlinux.org/wiki/system/installation/" target="_blank" rel="noopener noreferrer">Tutorial</a></div></article>
+      <article class="card"><span class="tag easy">Fácil · ⭐</span><h3>Manjaro</h3><p>Basada en Arch, pero amigable para empezar.</p><div class="links"><a href="https://manjaro.org/download/" target="_blank" rel="noopener noreferrer">Descargar</a><a href="https://wiki.manjaro.org/index.php/Installation_Guides" target="_blank" rel="noopener noreferrer">Tutorial</a></div></article>
+      <article class="card"><span class="tag easy">Fácil · ⭐</span><h3>Linux Lite</h3><p>Diseñada para migrar desde Windows.</p><div class="links"><a href="https://www.linuxliteos.com/download.php" target="_blank" rel="noopener noreferrer">Descargar</a><a href="https://www.linuxliteos.com/manual/" target="_blank" rel="noopener noreferrer">Tutorial</a></div></article>
+      <article class="card"><span class="tag easy">Fácil · ⭐</span><h3>Peppermint OS</h3><p>Rápida y sencilla con enfoque web-apps.</p><div class="links"><a href="https://peppermintos.com/" target="_blank" rel="noopener noreferrer">Descargar</a><a href="https://peppermintos.com/guide" target="_blank" rel="noopener noreferrer">Tutorial</a></div></article>
+
+      <article class="card"><span class="tag medium">Intermedio · ⭐⭐</span><h3>Debian</h3><p>Base súper estable para servidores y escritorio.</p><div class="links"><a href="https://www.debian.org/distrib/" target="_blank" rel="noopener noreferrer">Descargar</a><a href="https://www.debian.org/releases/stable/installmanual" target="_blank" rel="noopener noreferrer">Tutorial</a></div></article>
+      <article class="card"><span class="tag medium">Intermedio · ⭐⭐</span><h3>openSUSE Leap</h3><p>Robusta, con herramientas potentes como YaST.</p><div class="links"><a href="https://get.opensuse.org/leap/" target="_blank" rel="noopener noreferrer">Descargar</a><a href="https://doc.opensuse.org/" target="_blank" rel="noopener noreferrer">Tutorial</a></div></article>
+      <article class="card"><span class="tag medium">Intermedio · ⭐⭐</span><h3>openSUSE Tumbleweed</h3><p>Rolling release con software muy actualizado.</p><div class="links"><a href="https://get.opensuse.org/tumbleweed/" target="_blank" rel="noopener noreferrer">Descargar</a><a href="https://doc.opensuse.org/" target="_blank" rel="noopener noreferrer">Tutorial</a></div></article>
+      <article class="card"><span class="tag medium">Intermedio · ⭐⭐</span><h3>EndeavourOS</h3><p>Arch simplificada con instalador gráfico.</p><div class="links"><a href="https://endeavouros.com/latest-release/" target="_blank" rel="noopener noreferrer">Descargar</a><a href="https://discovery.endeavouros.com/" target="_blank" rel="noopener noreferrer">Tutorial</a></div></article>
+      <article class="card"><span class="tag medium">Intermedio · ⭐⭐</span><h3>Solus</h3><p>Foco en escritorio de alto rendimiento.</p><div class="links"><a href="https://getsol.us/download/" target="_blank" rel="noopener noreferrer">Descargar</a><a href="https://help.getsol.us/docs/user/quick-start/" target="_blank" rel="noopener noreferrer">Tutorial</a></div></article>
+
+      <article class="card"><span class="tag advanced">Avanzado · ⭐⭐⭐</span><h3>Gentoo</h3><p>Compilación optimizada y máxima personalización.</p><div class="links"><a href="https://www.gentoo.org/downloads/" target="_blank" rel="noopener noreferrer">Descargar</a><a href="https://wiki.gentoo.org/wiki/Handbook:Main_Page" target="_blank" rel="noopener noreferrer">Tutorial</a></div></article>
+      <article class="card"><span class="tag advanced">Avanzado · ⭐⭐⭐</span><h3>Slackware</h3><p>Clásica y minimalista para usuarios técnicos.</p><div class="links"><a href="https://www.slackware.com/getslack/" target="_blank" rel="noopener noreferrer">Descargar</a><a href="https://docs.slackware.com/" target="_blank" rel="noopener noreferrer">Tutorial</a></div></article>
+      <article class="card"><span class="tag advanced">Avanzado · ⭐⭐⭐</span><h3>NixOS</h3><p>Configuración declarativa y muy reproducible.</p><div class="links"><a href="https://nixos.org/download/" target="_blank" rel="noopener noreferrer">Descargar</a><a href="https://nixos.org/learn/" target="_blank" rel="noopener noreferrer">Tutorial</a></div></article>
+      <article class="card"><span class="tag advanced">Avanzado · ⭐⭐⭐</span><h3>Kali Linux</h3><p>Orientada a seguridad y pentesting.</p><div class="links"><a href="https://www.kali.org/get-kali/" target="_blank" rel="noopener noreferrer">Descargar</a><a href="https://www.kali.org/docs/" target="_blank" rel="noopener noreferrer">Tutorial</a></div></article>
+    </section>
+
+    <section class="tutoriales">
+      <h2 class="section-title">Mini guía rápida para instalar Linux</h2>
+      <ul>
+        <li>1) Descarga la ISO de la distro que quieras.</li>
+        <li>2) Crea un USB booteable con <a href="https://etcher.balena.io/" target="_blank" rel="noopener noreferrer">balenaEtcher</a> o <a href="https://rufus.ie/" target="_blank" rel="noopener noreferrer">Rufus</a>.</li>
+        <li>3) Reinicia y arranca desde el USB (F12, ESC o DEL según tu equipo).</li>
+        <li>4) Prueba el modo Live y luego instala (puedes usar dual boot).</li>
+      </ul>
+    </section>
+
+    <footer>Hecha con ❤️ para nuevos linuxeros. ¡Disfruta el viaje!</footer>
+  </main>
 </body>
 </html>
+
 
