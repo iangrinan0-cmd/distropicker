@@ -1,234 +1,277 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Linux para Principiantes</title>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DistroPicker | Empieza en Linux</title>
   <style>
+    :root {
+      --bg: #0f172a;
+      --card: rgba(15, 23, 42, 0.7);
+      --glass: rgba(255, 255, 255, 0.08);
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-2: #a78bfa;
+      --easy: #34d399;
+      --mid: #fbbf24;
+      --pro: #fb7185;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: system-ui, Arial, sans-serif;
-      background: linear-gradient(180deg, #f4f6f8, #e9ecf1);
-      color: #222;
-      max-width: 1100px;
-      margin: auto;
-      padding: 20px;
+      margin: 0;
+      font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(circle at 10% 15%, #1d4ed8 0%, transparent 40%),
+        radial-gradient(circle at 85% 10%, #7c3aed 0%, transparent 45%),
+        radial-gradient(circle at 40% 90%, #0ea5e9 0%, transparent 35%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
     }
 
-    h1 {
-      text-align: center;
-      font-size: 2.4em;
-      margin-bottom: 10px;
+    .container {
+      width: min(1120px, 92%);
+      margin: 0 auto;
+      padding: 2rem 0 3rem;
     }
 
-    .subtitle {
-      text-align: center;
-      color: #555;
-      margin-bottom: 30px;
+    .hero {
+      background: var(--glass);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 24px;
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 60px rgba(2, 6, 23, 0.5);
+      margin-bottom: 2rem;
     }
 
-    .intro {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      margin-bottom: 30px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.1;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 70ch;
+    }
+
+    .tip-box {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+
+    .tip {
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 0.8rem 1rem;
+      color: #dbeafe;
+      font-size: 0.95rem;
+    }
+
+    h2.section-title {
+      margin: 2rem 0 1rem;
+      font-size: 1.4rem;
+      color: #bfdbfe;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
     }
 
-    .distro {
-      background: white;
-      padding: 18px;
-      border-radius: 14px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
+    .card {
+      background: var(--card);
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 1.1rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 12px 30px rgba(2, 6, 23, 0.35);
     }
 
-    .distro:hover {
-      transform: translateY(-4px);
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 36px rgba(2, 6, 23, 0.5);
     }
 
-    .distro h2 {
-      margin-top: 0;
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.28rem 0.68rem;
+      margin-bottom: 0.65rem;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
     }
 
-    .level {
-      font-size: 0.9em;
-      color: #666;
-      margin-bottom: 10px;
+    .easy { background: color-mix(in srgb, var(--easy) 28%, transparent); color: var(--easy); }
+    .medium { background: color-mix(in srgb, var(--mid) 22%, transparent); color: var(--mid); }
+    .advanced { background: color-mix(in srgb, var(--pro) 22%, transparent); color: var(--pro); }
+
+    .card h3 {
+      margin: 0.15rem 0 0.45rem;
+      font-size: 1.2rem;
     }
 
-    a {
-      display: inline-block;
-      margin-top: 6px;
-      color: #2563eb;
+    .card p {
+      margin: 0;
+      color: #cbd5e1;
+      min-height: 2.8rem;
+    }
+
+    .links {
+      margin-top: 0.95rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+
+    .links a {
       text-decoration: none;
-      font-weight: 500;
+      color: #0f172a;
+      background: linear-gradient(120deg, var(--accent), var(--accent-2));
+      border-radius: 9px;
+      padding: 0.5rem 0.68rem;
+      font-size: 0.88rem;
+      font-weight: 700;
     }
 
-    button {
-      margin-top: 10px;
-      padding: 8px 12px;
-      border: none;
-      border-radius: 8px;
-      background: #111827;
-      color: white;
-      cursor: pointer;
+    .tutoriales {
+      background: var(--glass);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      padding: 1.2rem;
+      margin-top: 2rem;
     }
 
-    button:hover {
-      background: #1f2937;
+    .tutoriales ul {
+      margin: 0.4rem 0 0;
+      padding-left: 1rem;
+      color: #dbeafe;
     }
 
-    .pasos {
-      display: none;
-      margin-top: 12px;
-      background: #f8fafc;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 0.95em;
+    .tutoriales li {
+      margin-bottom: 0.5rem;
+    }
+
+    .tutoriales a {
+      color: #7dd3fc;
+      text-decoration: none;
     }
 
     footer {
+      margin-top: 2rem;
       text-align: center;
-      margin-top: 40px;
-      color: #666;
-      font-size: 0.9em;
+      color: var(--muted);
+      font-size: 0.9rem;
     }
   </style>
 </head>
-
 <body>
-
-  <h1>🐧 Linux para Principiantes</h1>
-  <p class="subtitle">Elige una distro, sigue los pasos y no rompas nada</p>
-
-  <div class="intro">
-    <p>
-      Linux es un sistema operativo gratuito, seguro y usado en millones de ordenadores.
-      Aquí encontrarás versiones recomendadas para empezar, con instrucciones simples.
-    </p>
-    <p>
-      ✔ Puedes probar Linux sin borrar Windows  
-      ✔ No necesitas saber programación  
-      ✔ Si algo sale mal, reinicias y ya
-    </p>
-  </div>
-
-  <div class="grid">
-
-    <!-- Ubuntu -->
-    <div class="distro">
-      <h2>Ubuntu</h2>
-      <p>La opción más popular para empezar.</p>
-      <div class="level">Dificultad: ⭐</div>
-
-      <a href="https://ubuntu.com/download" target="_blank">Web oficial</a><br>
-      <button onclick="toggle('ubuntu')">Cómo instalar</button>
-
-      <div id="ubuntu" class="pasos">
-        <ol>
-          <li>Descarga la ISO desde la web oficial</li>
-          <li>Usa balenaEtcher para crear un USB</li>
-          <li>Arranca el PC desde el USB</li>
-          <li>Sigue el instalador gráfico</li>
-        </ol>
+  <main class="container">
+    <section class="hero">
+      <h1>🐧 DistroPicker: tu primera aventura en Linux</h1>
+      <p>
+        ¿Quieres dejar Windows o macOS y probar Linux sin sufrir? Aquí tienes distros por nivel,
+        tutoriales claros y enlaces oficiales de descarga. Diseño bonito, cero drama 😎.
+      </p>
+      <div class="tip-box">
+        <div class="tip">✅ Puedes probar Linux en modo "Live USB".</div>
+        <div class="tip">💾 Haz copia de seguridad antes de instalar.</div>
+        <div class="tip">🧠 Empieza por una distro de nivel fácil.</div>
+        <div class="tip">🚀 Usa Rufus o balenaEtcher para crear el USB.</div>
       </div>
-    </div>
+    </section>
 
-    <!-- Linux Mint -->
-    <div class="distro">
-      <h2>Linux Mint</h2>
-      <p>El rey de las distros.</p>
-      <div class="level">Dificultad: ⭐</div>
+    <h2 class="section-title">Distros recomendadas por dificultad</h2>
+    <section class="grid">
+      <article class="card">
+        <span class="tag easy">Fácil · ⭐</span>
+        <h3>Linux Mint</h3>
+        <p>Muy intuitiva, estable y perfecta para empezar desde cero.</p>
+        <div class="links">
+          <a href="https://linuxmint.com/download.php" target="_blank" rel="noopener noreferrer">Descargar</a>
+          <a href="https://linuxmint-installation-guide.readthedocs.io/" target="_blank" rel="noopener noreferrer">Tutorial</a>
+        </div>
+      </article>
 
-      <a href="https://linuxmint.com/download.php" target="_blank">Web oficial</a><br>
-      <button onclick="toggle('mint')">Cómo instalar</button>
+      <article class="card">
+        <span class="tag easy">Fácil · ⭐</span>
+        <h3>Ubuntu</h3>
+        <p>La más popular, con gran comunidad y mucha ayuda en internet.</p>
+        <div class="links">
+          <a href="https://ubuntu.com/download/desktop" target="_blank" rel="noopener noreferrer">Descargar</a>
+          <a href="https://ubuntu.com/tutorials/install-ubuntu-desktop" target="_blank" rel="noopener noreferrer">Tutorial</a>
+        </div>
+      </article>
 
-      <div id="mint" class="pasos">
-        <ol>
-          <li>Descarga la ISO</li>
-          <li>Crea un USB booteable</li>
-          <li>Inicia desde el USB</li>
-          <li>Pulsa “Install Linux Mint”</li>
-        </ol>
-      </div>
-    </div>
+      <article class="card">
+        <span class="tag easy">Fácil · ⭐</span>
+        <h3>Zorin OS</h3>
+        <p>Interfaz moderna y familiar para gente que viene de Windows.</p>
+        <div class="links">
+          <a href="https://zorin.com/os/download/" target="_blank" rel="noopener noreferrer">Descargar</a>
+          <a href="https://help.zorin.com/docs/getting-started/install-zorin-os/" target="_blank" rel="noopener noreferrer">Tutorial</a>
+        </div>
+      </article>
 
-    <!-- Zorin OS -->
-    <div class="distro">
-      <h2>Zorin OS</h2>
-      <p>Amigable para usuarios de Windows.</p>
-      <div class="level">Dificultad: ⭐</div>
+      <article class="card">
+        <span class="tag medium">Intermedio · ⭐⭐</span>
+        <h3>Fedora Workstation</h3>
+        <p>Actualizada y pulida, genial para aprender Linux moderno.</p>
+        <div class="links">
+          <a href="https://fedoraproject.org/workstation/download" target="_blank" rel="noopener noreferrer">Descargar</a>
+          <a href="https://docs.fedoraproject.org/en-US/fedora/latest/getting-started/" target="_blank" rel="noopener noreferrer">Tutorial</a>
+        </div>
+      </article>
 
-      <a href="https://zorin.com/os/download/" target="_blank">Web oficial</a><br>
-      <button onclick="toggle('zorin')">Cómo instalar</button>
+      <article class="card">
+        <span class="tag medium">Intermedio · ⭐⭐</span>
+        <h3>elementary OS</h3>
+        <p>Elegante y minimalista, muy cómoda si te gusta lo visual.</p>
+        <div class="links">
+          <a href="https://elementary.io/" target="_blank" rel="noopener noreferrer">Descargar</a>
+          <a href="https://elementary.io/docs/installation" target="_blank" rel="noopener noreferrer">Tutorial</a>
+        </div>
+      </article>
 
-      <div id="zorin" class="pasos">
-        <ol>
-          <li>Descarga la ISO desde la web</li>
-          <li>Crea un USB con Etcher</li>
-          <li>Arranca desde el USB</li>
-          <li>Sigue el asistente</li>
-        </ol>
-      </div>
-    </div>
+      <article class="card">
+        <span class="tag advanced">Avanzado · ⭐⭐⭐</span>
+        <h3>Arch Linux</h3>
+        <p>Para quienes quieren control total y aprender en profundidad.</p>
+        <div class="links">
+          <a href="https://archlinux.org/download/" target="_blank" rel="noopener noreferrer">Descargar</a>
+          <a href="https://wiki.archlinux.org/title/Installation_guide" target="_blank" rel="noopener noreferrer">Tutorial</a>
+        </div>
+      </article>
+    </section>
 
-    <!-- Fedora -->
-    <div class="distro">
-      <h2>Fedora Workstation</h2>
-      <p>Preferida por una gran comunidad.</p>
-      <div class="level">Dificultad: ⭐⭐</div>
+    <section class="tutoriales">
+      <h2 class="section-title">Mini guía rápida para instalar Linux</h2>
+      <ul>
+        <li>1) Descarga la ISO de la distro que quieras.</li>
+        <li>2) Crea un USB booteable con <a href="https://etcher.balena.io/" target="_blank" rel="noopener noreferrer">balenaEtcher</a> o <a href="https://rufus.ie/" target="_blank" rel="noopener noreferrer">Rufus</a>.</li>
+        <li>3) Reinicia el equipo y arranca desde el USB (tecla F12, ESC o DEL según tu PC).</li>
+        <li>4) Prueba el modo Live y luego instala junto a tu sistema actual si quieres dual boot.</li>
+      </ul>
+    </section>
 
-      <a href="https://fedoraproject.org/workstation/" target="_blank">Web oficial</a><br>
-      <button onclick="toggle('fedora')">Cómo instalar</button>
-
-      <div id="fedora" class="pasos">
-        <ol>
-          <li>Descarga Fedora Workstation</li>
-          <li>Crea un USB</li>
-          <li>Arranca desde él</li>
-          <li>Usa el instalador Anaconda</li>
-        </ol>
-      </div>
-    </div>
-
-    <!-- elementary OS -->
-    <div class="distro">
-      <h2>elementary OS</h2>
-      <p>Perfecto para usuarios de macOS.</p>
-      <div class="level">Dificultad: ⭐⭐</div>
-
-      <a href="https://elementary.io/" target="_blank">Web oficial</a><br>
-      <button onclick="toggle('elementary')">Cómo instalar</button>
-
-      <div id="elementary" class="pasos">
-        <ol>
-          <li>Descarga la ISO</li>
-          <li>Crea un USB</li>
-          <li>Arranca desde el USB</li>
-          <li>Sigue el asistente gráfico</li>
-        </ol>
-      </div>
-    </div>
-
-  </div>
-
-  <footer>
-    Hecho para principiantes. Linux no muerde 🐧
-  </footer>
-
-  <script>
-    function toggle(id) {
-      const el = document.getElementById(id);
-      el.style.display = el.style.display === "block" ? "none" : "block";
-    }
-  </script>
-
+    <footer>
+      Hecha con ❤️ para nuevos linuxeros. ¡Explora, rompe cosas y aprende!
+    </footer>
+  </main>
 </body>
 </html>
-
